@@ -19,15 +19,13 @@ public class MenusCadastroAluno {
 				+ " alunos cadastrados: " + alunos.size(), "Aviso",
 		          JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
 		              null, options, options[0]);
-		
-		System.out.println(opcao);
-		
+
 		switch (opcao) {
 		case 0:
 			inserirDados();
 			break;
 		case 1:
-			
+			exibirRelatorio();
 			break;
 		case 2:
 			
@@ -47,37 +45,72 @@ public class MenusCadastroAluno {
 		
 		aluno.setRa(JOptionPane.showInputDialog("Digite o RA do aluno:"));
 		
-		double nota;
+		double [] nota = new double[10];
 		
-		do {
-		nota = Double.parseDouble(
-				JOptionPane.showInputDialog("Digite a primeira nota do aluno:"));
-		}while(!verificarNota(nota));
-		aluno.setNota1(nota);
+		for (int i = 0; i < 4; i++) {
+			boolean validar = false;
+			do {
+				try {
+					nota[i] = Double.parseDouble(
+							JOptionPane.showInputDialog("Digite a "+(i + 1)+" nota do aluno:")
+							.replace(",", "."));
+					validar = verificarNota(nota[i]);
+				}catch (NumberFormatException e) {
+					JOptionPane.showMessageDialog(null, "Digite apenas nÃºmeros!");
+					validar = false;
+				}
+			} while (!validar);
+			
+		}
 		
+		aluno.setNota1(nota[0]);
+		aluno.setNota2(nota[1]);
+		aluno.setNota3(nota[2]);
+		aluno.setNota4(nota[3]);
 		
-		aluno.setNota2(Double.parseDouble(
-				JOptionPane.showInputDialog("Digite a segunda nota do aluno:")));
-		
-		aluno.setNota3(Double.parseDouble(
-				JOptionPane.showInputDialog("Digite a terceira nota do aluno:")));
-		
-		aluno.setNota4(Double.parseDouble(
-				JOptionPane.showInputDialog("Digite a quarta nota do aluno:")));
+		alunos.add(aluno);
 		
 	}
 	
 	private boolean verificarNota(double nota) {
 		
 		if(nota > 10) {
-			JOptionPane.showMessageDialog(null, "A nota não pode ser maior que 10!");
+			JOptionPane.showMessageDialog(null, "A nota nï¿½o pode ser maior que 10!");
 			return false;
 		}else if(nota < 0) {
-			JOptionPane.showMessageDialog(null, "A nota não pode ser menor que 0!");
+			JOptionPane.showMessageDialog(null, "A nota nï¿½o pode ser menor que 0!");
 			return false;
 		}else
 		
 		return true;
+	}
+	
+	private void exibirRelatorio() {
+		String mensagem = "", aprovado = "";
+		
+		for(int i=0; i < alunos.size(); i++) {
+			alunos.get(i).calcularMedia();
+			
+			if(alunos.get(i).isAprovado() == true){
+				aprovado = "Aprovado";
+			}else {
+				aprovado = "Reprovado";
+			}
+			
+			mensagem += alunos.get(i).getNome() +" RA: "
+					+ alunos.get(i).getRa()
+					+ "\nNota 1: "+alunos.get(i).getNota1()
+					+ "\nNota 2: "+alunos.get(i).getNota2()
+					+ "\nNota 3: "+alunos.get(i).getNota3()
+					+ "\nNota 4: "+alunos.get(i).getNota4()
+					+" Nota Final: " 
+					+ alunos.get(i).getMedia() 
+					+ "\n"
+					+ "SituaÃ§Ã£o: " + aprovado 
+					+ "\n---------------------------------\n";
+			
+		}
+		JOptionPane.showMessageDialog(null, mensagem);
 	}
 
 }
