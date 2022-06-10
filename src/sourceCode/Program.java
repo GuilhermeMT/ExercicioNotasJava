@@ -10,8 +10,11 @@ public class Program {
 
 	public static void main(String[] args) {
 		
-		Scanner sc = new Scanner(System.in);
-		int opcao = 0;
+		MenusCadastroAluno menu = new MenusCadastroAluno();
+		
+		menu.cadastrarAluno();
+		
+		/*int opcao = 0;
 		List<Aluno> alunos = new ArrayList<Aluno>();
 		
 		do {
@@ -62,9 +65,9 @@ public class Program {
 			mensagem += alunos.get(i).getNome() + " Nota Final: " + alunos.get(i).getMedia() + "\n"
 					+ "Situação: " + aprovado + "\n-----------\n";
 			
-		}
+		}*/
 		
-		JOptionPane.showMessageDialog(null, mensagem);
+		//JOptionPane.showMessageDialog(null, mensagem);
 		
 	}
 
